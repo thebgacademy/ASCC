@@ -1,19 +1,22 @@
-# TEMPLATE
+# ASCC
 
 This session is part of [**Biodiversity Genomics Academy 2024**](https://thebgacademy.org/)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/thebgacademy/TEMPLATE)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/thebgacademy/ASCC)
 
 ## Session Leader(s)
-
+Wellcome Genome Campus
+- Eerik Aunin, PhD
+- Damon-Lee Pointon
 
 ## Description
 
-
+The Automated System for Cobiont and Contamination detection, is an NF-Core based pipeline that allows for the detection of cobionts and contaminant sequence from a genomic assembly. This is achieved through the generation of Blobtoolkit compatible graphs for manual investigation and automated contamination removal.
 
 ## Prerequisites
 
 1. Understanding of linux command line basics
+2. An understanding of running Nextflow Pipelines
 
 >[!warning] "Please make sure you MEET THE PREREQUISITES and READ THE DESCRIPTION above"
 >
