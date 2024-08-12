@@ -1,8 +1,27 @@
 image: gitpod/workspace-full-vnc
+# Update 7th September to reflect code base changes
+ports:
+- name: something
+  description: something
+  port: 3000
+  onOpen: open-browser
+  visibility: public
 
-- name: SETUP
-  init: |
-    echo "Hello there - Welcome to GitPod
+tasks:
+  - name: Install Nextflow
+  # https://www.nextflow.io/docs/latest/getstarted.html
+    init: |
+      cd /workspace/treeval-curation/
+      
+      wget -qO- https://get.nextflow.io | bash
+
+      chmod +x nextflow
+
+      sudo mv nextflow /usr/local/bin
+
+  - name: Download ASCC
+    init: |
+      git clone -b BGA-branch https://github.com/sanger-tol/ascc.git
 
 ports:
   - port: 5900
