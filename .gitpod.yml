@@ -28,7 +28,6 @@ tasks:
       cd /workspace
       wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
       bash Mambaforge-$(uname)-$(uname -m).sh -b -p /workspace/mambaforge && rm Mambaforge-$(uname)-$(uname -m).sh
-  
       /workspace/mambaforge/bin/mamba init bash
       source ${HOME}/.bashrc
       conda create -y -n btk -c conda-forge python=3.9 &&
