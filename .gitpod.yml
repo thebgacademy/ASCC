@@ -1,9 +1,9 @@
 image: gitpod/workspace-full-vnc
 # Update 7th September to reflect code base changes
 ports:
-- name: something
+- name: BTK_browser
   description: something
-  port: 3000
+  port: 6969
   onOpen: open-browser
   visibility: public
 
@@ -48,12 +48,5 @@ tasks:
       gp preview https://www.thebgacademy.org/BGA24/sessions/ascc-24
       clear
       echo "WELCOME TO ASCC"
-
-ports:
-  - port: 5900
-    onOpen: ignore
-  - port: 6080
-    onOpen: open-browser
-    visibility: public
 
 workspaceLocation: "/workspace"
