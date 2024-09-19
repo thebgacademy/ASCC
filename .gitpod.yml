@@ -21,17 +21,74 @@ tasks:
 
   - name: SETUP - Download ASCC
     init: |
-      git clone -b BGA-branch https://github.com/sanger-tol/ascc.git
+      git clone -b dev https://github.com/sanger-tol/ascc.git
 
-  - name: SETUP - MAMBA ENVIRONMENT
+  - name: btk install mamba and docker pull
     init: |
       cd /workspace
       wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
       bash Mambaforge-$(uname)-$(uname -m).sh -b -p /workspace/mambaforge && rm Mambaforge-$(uname)-$(uname -m).sh
       /workspace/mambaforge/bin/mamba init bash
+
       source ${HOME}/.bashrc
-      conda create -y -n btk -c conda-forge python=3.9 &&
-      gp sync-done bundle
+
+      mamba create -n tiara -c conda-forge tiara python=3.7 -y
+
+      cd /workspace
+      curl https://sk13.cog.sanger.ac.uk/glClaSqua9.tgz | tar xzf -
+
+      cd /workspace
+      git clone https://github.com/blobtoolkit/blobtoolkit btk_example
+
+      DOCKERVERSION=latest
+      docker pull genomehubs/blobtoolkit-api:$DOCKERVERSION
+      docker pull genomehubs/blobtoolkit-viewer:$DOCKERVERSION
+  
+  - name: docker run
+    command: |
+      API_PORT=8000
+      PORT=8080
+      VIEWERURL=$(gp url $PORT)
+      APIURL=$(gp url $API_PORT)
+      DOCKERVERSION=latest
+
+      mkdir -p /workspace/logs
+
+      docker rm -f btk-api-$API_PORT
+      docker run -d \
+      -u $UID:$GROUPS \
+      --restart always \
+      -p $API_PORT:8000 \
+      -v /workspace/btk_example/src/data/example/:/blobtoolkit/datasets \
+      -v /workspace/logs:/blobtoolkit/logs \
+      -e BTK_API_PORT=8000 \
+      -e BTK_API_URL=$APIURL/api/v1 \
+      -e BTK_HTTPS=false \
+      -e BTK_ORIGINS="$VIEWERURL http://localhost https://localhost null" \
+      -e BTK_HOST=$VIEWERURL \
+      -e BTK_USE_DEFAULT_LINKS=true \
+      -e BTK_FILE_PATH=/blobtoolkit/datasets \
+      -e BTK_ERROR_LOG=/blobtoolkit/logs/error.log \
+      -e BTK_ACCESS_LOG=/blobtoolkit/logs/access.log \
+      --name btk-api-$API_PORT \
+      genomehubs/blobtoolkit-api:$DOCKERVERSION
+
+      docker rm -f btk-viewer-$PORT
+      docker run -d \
+      --restart always \
+      -p $PORT:8080 \
+      -e BTK_API_URL=$APIURL/api/v1 \
+      -e BTK_BASENAME=/view \
+      -e BTK_GA_ID= \
+      -e BTK_GDPR_URL= \
+      -e BTK_MESSAGE= \
+      --name btk-viewer-$PORT \
+      genomehubs/blobtoolkit-viewer:$DOCKERVERSION && gp preview $VIEWERURL/view/all#Datasets
+
+      /workspace/mambaforge/bin/mamba init bash
+
+      source ${HOME}/.bashrc
+      clear
 
   - name: MAIN - TERMINAL TO USE
     # Installing click and ruff in the mamba environment didn't work for some reason
