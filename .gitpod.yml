@@ -26,7 +26,7 @@ tasks:
     init: |
       git clone -b dev https://github.com/sanger-tol/ascc.git
 
-  - name: btk install mamba and docker pull
+  - name: SETUP - btk install mamba and docker pull
     init: |
       cd /workspace
       wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
@@ -36,6 +36,7 @@ tasks:
       source ${HOME}/.bashrc
 
       mamba create -n tiara -c conda-forge tiara python=3.7 -y
+      conda create -y -n btk -c conda-forge python=3.9
 
       cd /workspace
       curl https://sk13.cog.sanger.ac.uk/glClaSqua9.tgz | tar xzf -
@@ -47,7 +48,7 @@ tasks:
       docker pull genomehubs/blobtoolkit-api:$DOCKERVERSION
       docker pull genomehubs/blobtoolkit-viewer:$DOCKERVERSION
   
-  - name: docker run
+  - name: SETUP - docker run
     command: |
       API_PORT=8000
       PORT=8080
@@ -91,7 +92,8 @@ tasks:
       /workspace/mambaforge/bin/mamba init bash
 
       source ${HOME}/.bashrc
-      clear
+      gp sync-done bundle
+      
 
   - name: MAIN - TERMINAL TO USE
     # Installing click and ruff in the mamba environment didn't work for some reason
@@ -104,9 +106,11 @@ tasks:
       /workspace/mambaforge/bin/mamba init bash
       source ${HOME}/.bashrc
       mamba activate btk
+      pip install "blobtoolkit[full]"
+
       export PATH=/workspace:$PATH
       gp preview https://www.thebgacademy.org/BGA24/sessions/ascc-24
       clear
-      echo "WELCOME TO ASCC"
+      echo "WELCOME TO ASCC!"
 
 workspaceLocation: "/workspace"
