@@ -1,10 +1,13 @@
 image: gitpod/workspace-full-vnc
 # Update 7th September to reflect code base changes
 ports:
-- name: BTK_browser
-  description: something
-  port: 6969
-  onOpen: open-browser
+- name: BTK API
+  description: BlobToolKit API
+  port: 8000
+  visibility: public
+- name: BTK Viewer
+  description: BlobToolKit Viewer
+  port: 8080
   visibility: public
 
 tasks:
