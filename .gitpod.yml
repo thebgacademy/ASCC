@@ -8,7 +8,7 @@ ports:
   visibility: public
 
 tasks:
-  - name: Install Nextflow
+  - name: SETUP - Install Nextflow
   # https://www.nextflow.io/docs/latest/getstarted.html
     init: |
       cd /workspace/treeval-curation/
@@ -19,9 +19,36 @@ tasks:
 
       sudo mv nextflow /usr/local/bin
 
-  - name: Download ASCC
+  - name: SETUP - Download ASCC
     init: |
       git clone -b BGA-branch https://github.com/sanger-tol/ascc.git
+
+  - name: SETUP - MAMBA ENVIRONMENT
+    init: |
+      cd /workspace
+      wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
+      bash Mambaforge-$(uname)-$(uname -m).sh -b -p /workspace/mambaforge && rm Mambaforge-$(uname)-$(uname -m).sh
+  
+      /workspace/mambaforge/bin/mamba init bash
+      source ${HOME}/.bashrc
+      conda create -y -n btk -c conda-forge python=3.9 &&
+      gp sync-done bundle
+
+  - name: MAIN - TERMINAL TO USE
+    # Installing click and ruff in the mamba environment didn't work for some reason
+    # It is much easier to install via that mamba env's pip3
+    # and then install pretext-to-tpf
+    init: gp sync-await bundle # Wait for previous 'inits' to complete
+    command: |
+      cd /workspace
+      chmod a+x *.pl *.py
+      /workspace/mambaforge/bin/mamba init bash
+      source ${HOME}/.bashrc
+      mamba activate btk
+      export PATH=/workspace:$PATH
+      gp preview https://www.thebgacademy.org/BGA24/sessions/ascc-24
+      clear
+      echo "WELCOME TO ASCC"
 
 ports:
   - port: 5900
