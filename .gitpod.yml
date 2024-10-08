@@ -34,6 +34,7 @@ tasks:
   - name: FullPyoelii set
     init: |
       curl https://dp24.cog.sanger.ac.uk/FullPyoelii.tar.gz | tar xzf -
+      gp sync-done data
   
   - name: Temporary BLASTN Data
     init: |
@@ -120,6 +121,7 @@ tasks:
       docker pull genomehubs/blobtoolkit-viewer:$DOCKERVERSION
   
   - name: SETUP - docker run
+    init: gp sync-await data # Wait for previous 'inits' to complete
     command: |
       API_PORT=8000
       PORT=8080
@@ -127,14 +129,14 @@ tasks:
       APIURL=$(gp url $API_PORT)
       DOCKERVERSION=latest
 
-      mkdir -p /workspace/logs
+      mkdir -p /workspace/btk_data_upload
 
       docker rm -f btk-api-$API_PORT
       docker run -d \
       -u $UID:$GROUPS \
       --restart always \
       -p $API_PORT:8000 \
-      -v /workspace/btk_example/src/data/example/:/blobtoolkit/datasets \
+      -v /workspace/btk_data_upload/:/blobtoolkit/datasets \
       -v /workspace/logs:/blobtoolkit/logs \
       -e BTK_API_PORT=8000 \
       -e BTK_API_URL=$APIURL/api/v1 \
