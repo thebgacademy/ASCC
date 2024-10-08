@@ -30,6 +30,10 @@ tasks:
   - name: Temporary ASCC Diamond Data
     init: |
       curl https://dp24.cog.sanger.ac.uk/ascc/diamond.dmnd -o diamond.dmnd
+
+  - name: FullPyoelii set
+    init: |
+      curl http://dp24.cog.sanger.ac.uk/FullPyoelii.tar.gz | tar xzf -
   
   - name: Temporary BLASTN Data
     init: |
