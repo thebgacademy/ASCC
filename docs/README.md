@@ -6,7 +6,7 @@ And then Click Continue
 ```bash
 mkdir run_test
 cd run_test
-nextflow run /workspace/ascc/main.nf [main.nf] --input /workspace/ASCC/BGA_test.yaml -profile docker,gitpod,test --include kmers,tiara,nt_blast,vecscreen,kraken,organellar_blast,fcs-adaptor,fcs-gx,pacbio_barcodes,coverage -config /workspace/ASCC/extra.config
+nextflow run /workspace/ascc/main.nf --input /workspace/ASCC/BGA_test.yaml -profile docker,gitpod,test --include kmers,tiara,nt_blast,vecscreen,kraken,organellar_blast,fcs-adaptor,fcs-gx,pacbio_barcodes,coverage -config /workspace/ASCC/extra.config
 ```
 
 this should take ~8 min to run
