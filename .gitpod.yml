@@ -33,7 +33,7 @@ tasks:
 
   - name: FullPyoelii set
     init: |
-      curl http://dp24.cog.sanger.ac.uk/FullPyoelii.tar.gz | tar xzf -
+      curl https://dp24.cog.sanger.ac.uk/FullPyoelii.tar.gz | tar xzf -
   
   - name: Temporary BLASTN Data
     init: |
