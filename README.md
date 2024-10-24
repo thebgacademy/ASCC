@@ -13,7 +13,7 @@ Wellcome Genome Campus
 
 ## Description
 
-The Automated System for Cobiont and Contamination detection, is an NF-Core based pipeline that allows for the detection of cobionts and contaminant sequence from a genomic assembly. This is achieved through the generation of Blobtoolkit compatible graphs for manual investigation and automated contamination removal.
+The Assembly Screen for Cobionts and Contaminants is an NF-Core based pipeline that detects cobionts and contaminant sequences from a genomic assembly. This is achieved by generating Blobtoolkit-compatible graphs for manual investigation and automated contamination removal.
 
 ## Prerequisites
 
