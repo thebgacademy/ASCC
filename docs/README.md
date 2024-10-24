@@ -25,8 +25,7 @@ cd /workspace/run_test/null/ASCC-main-output
 ls -ltr
 ```
 ```
-less /workspace/run_test/null/ASCC-main-output/asccTinyTest_V2_contamination_check_m
-erged_table.csv
+less /workspace/run_test/null/ASCC-main-output/asccTinyTest_V2_contamination_check_merged_table.csv
 ```
 
 ```
